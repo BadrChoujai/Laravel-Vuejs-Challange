@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::prefix('api')->group(function (){
+    
+    // getting Products
+    Route::get('getProducts', 'ProductController@getProducts');
+    // getting Categories
+    Route::get('getCategories', 'CategoryController@getCategories'); 
+});
