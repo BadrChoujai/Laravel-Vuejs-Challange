@@ -27,10 +27,10 @@
     </head>
     <body>
         <div>
-            <div class="container" id="app">
-                @yield('content')
+            <div id="app">
+                <products></products>
             </div>
         </div>
-        <script src="{{asset('js/app.js')}}" ></script>
+        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>
