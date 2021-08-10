@@ -1,23 +1,8 @@
 <template>
     <div id="products">
-        <!-- <div class="container" :class="{'loading': loading}">
-        <div class="row">
-            <div class="col-lg-3">
-                <h1 class="my-4">Shop Catalog</h1>
-                <div class="list-group">
-                    <a class="list-group-item" v-for="category in categories" :key="category">
-                        {{ category.name }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <div class="container" v-if="loading">
-        <h1>LOADING</h1>
-    </div>
-    <div class="col-lg-9" v-else>
+    <div class="col-lg-9">
                 <div class="row mt-4">
-                    <div class="col-lg-4 col-md-6 mb-4" v-for="(product, Index) in products" v-bind:key="Index">
+                    <div class="col-lg-4 col-md-6 mb-4" v-for="(product) in products" :key="product.product_id">
                         <div class="card h-100">
                             <a href="#">
                                 <img class="card-img-top" src="http://placehold.it/700x400" alt="image">
@@ -26,8 +11,13 @@
                                 <h4 class="card-title">
                                     <a href="#">{{ product.name }}</a>
                                 </h4>
-                                <h5>$ {{ product.price }}</h5>
+                               
+                                <h6>$ {{ product.price }}</h6>
                                 <p class="card-text">{{ product.description }}</p>
+                                 <div class="btn-group" role="group">
+                                    <router-link :to="{name: 'edit', params: { id: product.product_id }}" id="edit" class="btn btn-success">Edit</router-link>
+                                    <button class="btn btn-danger" @click="deleteProduct(product.product_id)">Delete</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,15 +26,12 @@
     </div>
 </template>
 <script>
-import axios from "axios";
 export default ({
     name:'Products',
     data: function () {
             return {
                 categories: [],
                 products: [],
-                // url:document.head.querySelector('meta[name="url"]').content,
-                loading: false
             }
         },
 
@@ -54,29 +41,30 @@ export default ({
         },
 
         methods: {
-//             loadCategories: function () {
-//                 let url = this.url + '/api/getcategories'
-//                 axios.get(url)
-//                     .then((response) => {
-//                         this.categories = response.data.data;
-//                     })
-//                     .catch(function (error) {
-//                         console.log(error);
-//                     });
-//             },
             loadProducts: function () {
-                    return axios.get('/api/products')
+                    this.axios.get('/api/products')
                     .then((response) => {
-                        this.products = response.data.data;
+                        this.products = response.data;
+                        console.log(this.products);
                     })
                     .catch(function (error) {
-                        this.loading = false;
                         console.log(error);
                     })
-                    .finally(function () {
-                        this.loading = false;
-                    })
+            },
+            deleteProduct(id){
+                this.axios
+                    .delete(`/api/products/${id}`)
+                    .then(response => {
+                        let i = this.products.map(data => data.product_id).indexOf(id);
+                        this.products.splice(i, 1)
+                    });
             }
+
         }
 })
 </script>
+<style scoped>
+#edit{
+    margin-right: 10px;
+}
+</style>

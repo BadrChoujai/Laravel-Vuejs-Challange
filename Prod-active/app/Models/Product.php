@@ -13,11 +13,12 @@ class Product extends Model
         return $this->belongesTo(Category::class);
     }
     public $primaryKey = 'product_id'; 
+    protected $guarded = [];
     protected $fillable = [
         'name',
         'description',
         'price',
         'image',
-        'category_id'
+        // 'category_id'
     ];
 }

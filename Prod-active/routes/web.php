@@ -15,12 +15,11 @@ use App\Http\Controllers\Api\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');
 
-// getting Products
-Route::resource('/api/products', 'App\Http\Controllers\Api\ProductController');
+
 // getting Categories
 // Route::resource('/api/getcategories', 'Api\CategoryController'); 
 
