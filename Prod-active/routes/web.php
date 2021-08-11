@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProductController;
+// use App\Http\Controllers\Api\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');
 
 
-Route::prefix('api')->group(function (){
-    
-    // getting Products
-    Route::get('getProducts', 'ProductController@getProducts');
-    // getting Categories
-    Route::get('getCategories', 'CategoryController@getCategories'); 
-});
+// getting Categories
+// Route::resource('/api/getcategories', 'Api\CategoryController'); 
+
