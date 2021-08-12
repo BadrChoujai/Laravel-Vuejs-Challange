@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3 class="text-center">Edit Product</h3>
-        <div class="row">
+        <div class="row" id="centery">
             <div class="col-md-6">
                 <form @submit.prevent="updateProduct">
                     <div class="form-group">
@@ -16,11 +16,17 @@
                         <label>Price</label>
                         <input type="text" class="form-control" v-model="product.price">
                     </div>
+                    <label>Category</label>
+                    <select  v-model="product.category_id" name="category" class="custom-select" id="inputGroupSelect01">
+                        <option v-for="catego in category" v-bind:key="catego.id" :value="catego.id">
+                            {{catego.name}}
+                        </option>
+                    </select><br><br>
                      <div class="form-group">
                         <label>Image</label>
                         <input type="text" class="form-control" v-model="product.image">
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-outline-primary">Update</button>
                 </form>
             </div>
         </div>
@@ -34,15 +40,22 @@
                 headers: {
                 'X-CSRF-TOKEN': document.querySelector('#token').getAttribute('value')
                 },
-                product: {}
+                product: {},
+                category:[]
             }
         },
         created() {
             this.axios
-                .get(`http://localhost:8000/api/products/${this.$route.params.id}`)
+                .get(`/api/products/${this.$route.params.id}`)
                 .then((res) => {
                     this.product = res.data;
                 });
+            this.axios
+                .get('/api/categories/')
+                .then((res) => {
+                    this.category = res.data;
+                });    
+                
         },
         methods: {
             updateProduct() {
@@ -55,3 +68,14 @@
         }
     }
 </script>
+<style scoped>
+#centery{
+    margin-top:40px;
+    display:flex;
+    justify-content: center;
+    margin-bottom:40px;
+}
+h3{
+    margin-top:20px;
+}
+</style>
