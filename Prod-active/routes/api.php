@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 Use App\Models\Product;
- 
+use App\Models\Category;
+
+// PRODUCTS API ROUTES 
+
 Route::get('products', function() {
-    // If the Content-Type and Accept headers are set to 'application/json', 
-    // this will return a JSON structure. This will be cleaned up later.
     return Product::all();
 });
  
@@ -30,28 +31,33 @@ Route::delete('products/{id}', function($products_id) {
 
     return 204;
 });
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// CATEGORY API ROUTES
 
-// /*
-// |--------------------------------------------------------------------------
-// | API Routes
-// |--------------------------------------------------------------------------
-//  */
+Route::get('categories', function () {
+    // If the Content-Type and Accept headers are set to 'application/json',
+    // this will return a JSON structure. This will be cleaned up later.
+    return Category::all();
+});
 
-// Route::middleware('api')->group(function () {
-//     Route::resource('products', ProductController::class);
-// });
+Route::get('categories/{id}', function ($id) {
+    return Category::find($id);
+});
+
+Route::post('categories', function (Request $request) {
+    return Category::create($request->all());
+});
+
+Route::put('categories/{id}', function (Request $request, $id) {
+    $Category = Category::findOrFail($id);
+    $Category->update($request->all());
+
+    return $Category;
+});
+
+Route::delete('categories/{id}', function ($id) {
+    Category::find($id)->delete();
+
+    return 204;
+});
 

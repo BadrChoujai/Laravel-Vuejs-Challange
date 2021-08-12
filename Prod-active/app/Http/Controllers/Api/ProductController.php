@@ -22,11 +22,31 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $product = new Product([
+        $product = new Product();
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'category' => 'required',
+        ]);
+        
+        if($request->image != '') {   
+            $path = public_path().'/assets/img/';
+            //upload new file
+            $image = $request->image;
+            $filename = $image->getClientOriginalName();
+            $image->move($path, $filename);
+            //for update in table
+            $product->update([
+                'image' => $filename
+            ]);
+        }
+        
+        $product->update([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'price' => $request->input('price'),
-            'image' => $request->input('image'),
+            'category' => $request->input('category_id'),
         ]);
         $product->save();
     }
