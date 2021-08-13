@@ -9,25 +9,24 @@ use App\Http\Controllers\Api\ProductController;
 // PRODUCTS API ROUTES 
 
 Route::get('products', function() {
-
     $products =  Product::with('Category')->get();
-    // $products = Product::where('category_id', $category->name)->get();
     return $products;
 });
  
 Route::get('products/{id}', function($products_id) {
-    return Product::find($products_id);
+    $products =  Product::with('Category')->get();
+    return $products->find($products_id);
 });
 
 Route::get('proCategory/{id}', function($category_id) {
-    $products = Product::all();
+    $product =  Product::all();
     $category = Category::where('id', $category_id);
     if ($category->exists()) {
         $category = Category::where('id', $category_id)->first();
-        $products = Product::where('category_id', $category->id )->get();
-        return $products;
+        $product = Product::where('category_id', $category->id )->with('Category')->get();
+        return $product;
     }else
-        return 200;
+        return response('NO Products Found');
 });
 
 Route::get('products/{id}', function($products_id) {
