@@ -26,7 +26,7 @@
                                 </h4>
                                 <h6>Price : $ {{ product.price }}</h6>
                                 <h6>Category : {{ product.category.name }}</h6>
-                                <p class="card-text">Description : {{ product.description }}</p>
+                                <p class="card-text" style="font-size:1.1vw;">Description : {{ product.description }}</p>
                                     <div class="btn-group" role="group">
                                         <router-link :to="{name: 'edit', params: { id: product.product_id }}" id="edit" class="btn btn-outline-success">Edit</router-link>
                                         <button class="btn btn-outline-danger" @click="deleteProduct(product.product_id)">Delete</button>
@@ -99,9 +99,10 @@ export default ({
                         if (response.data || this.selected.length != 0 ) {
                             for (let i=0; i<response.data.length; i++ )
                             {
-                                this.pro[i] = response.data[i];
+                                    this.pro[i] = response.data[i];
+                                    if(this.pro[i].category_id != this.selected.categories[i])
+                                        this.pro.splice(i,1);
                             }
-                            console.log(this.pro);  
                             this.products = this.pro;
                             this.proL = this.pro.length;
                         }

@@ -26,7 +26,7 @@ Route::get('proCategory/{id}', function($category_id) {
         $product = Product::where('category_id', $category->id )->with('Category')->get();
         return $product;
     }else
-        return response('NO Products Found');
+        return 405;
 });
 
 Route::get('products/{id}', function($products_id) {
@@ -51,6 +51,7 @@ Route::delete('products/{id}', function($products_id) {
 });
 
 // CATEGORY API ROUTES
+
 
 Route::get('categories', function () {
     // If the Content-Type and Accept headers are set to 'application/json',
