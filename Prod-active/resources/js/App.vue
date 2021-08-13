@@ -28,10 +28,6 @@
                     </li>
                 </ul>
             </div>
-            <!-- <div class="collapse navbar-collapse">
-                <div class="navbar-nav" >
-                </div>
-            </div> -->
         </nav>
         <router-view> </router-view>
     </div>
@@ -54,5 +50,8 @@
 
 #dark strong:hover{
     color:lightgray;
+}
+.navbar-collapse{
+    flex-grow: 0;
 }
 </style>

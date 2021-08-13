@@ -21,8 +21,8 @@
                                 {{ truncate_string(category.updated_at) }}
                             </td>
                             <td data-th="Action">
-                                <router-link :to="{name: 'editCategory', params: { id: category.id }}" id="edit" class="btn btn-success">Edit</router-link>
-                                <button class="btn btn-danger" @click="deleteCategory(category.id)">Delete</button>
+                                <router-link :to="{name: 'editCategory', params: { id: category.id }}" id="edit" class="btn btn-outline-success">Edit</router-link>
+                                <button class="btn btn-outline-danger" @click="deleteCategory(category.id)">Delete</button>
                             </td>
                         </tr>
                         </tbody>
@@ -64,12 +64,14 @@ export default ({
                     })
             },
             deleteCategory(id){
+              this.$confirm(`Are you sure?`, 'Delete', 'warning').then(() => {
                 this.axios
                     .delete(`/api/categories/${id}`)
                     .then(response => {
                         let i = this.categories.map(data => data.id).indexOf(id);
                         this.categories.splice(i, 1)
                     });
+              });    
             }
 
         }
@@ -83,16 +85,11 @@ export default ({
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
 
 * {font-family: 'Open Sans', sans-serif;}
-.row{
-    margin-right: 230px;
-}
-td{
-    margin-right:100px;
-}
+
 .rwd-table {
-  margin: auto;
   min-width: 300px;
   max-width: 100%;
+  display: flex;
   border-collapse: collapse;
 }
 
@@ -103,6 +100,7 @@ td{
 }
 
 .rwd-table tr {
+  padding-right: 150px;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   background-color: #f5f9fc;
@@ -174,15 +172,17 @@ td{
   }
   .rwd-table th:first-child,
   .rwd-table td:first-child {
-    padding-left: 0;
+    padding-left: 50px;
   }
   .rwd-table th:last-child,
   .rwd-table td:last-child {
-    padding-right: 0;
+    padding-right: 60px;
   }
   .rwd-table th,
   .rwd-table td {
-    padding: 1em !important;
+    padding: 1em;
+    padding-right: 25px;
+    padding-left: 57px;
   }
 }
 

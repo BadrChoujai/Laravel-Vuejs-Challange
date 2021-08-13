@@ -21,11 +21,11 @@
                         <option v-for="catego in category" v-bind:key="catego.id" :value="catego.id">
                             {{catego.name}}
                         </option>
-                    </select><br><br>
-                     <div class="form-group">
+                    </select><br>
+                     <!-- <div class="form-group">
                         <label>Image</label>
                         <input type="text" class="form-control" v-model="product.image">
-                    </div>
+                    </div> -->
                     <button type="submit" class="btn btn-outline-primary">Update</button>
                 </form>
             </div>
@@ -46,21 +46,23 @@
         },
         created() {
             this.axios
-                .get(`/api/products/${this.$route.params.id}`)
-                .then((res) => {
-                    this.product = res.data;
-                });
-            this.axios
                 .get('/api/categories/')
                 .then((res) => {
                     this.category = res.data;
                 });    
                 
         },
+        mounted(){
+                this.axios
+                .get(`/api/products/${this.$route.params.id}`)
+                .then((res) => {
+                    this.product = res.data;
+                });
+        },
         methods: {
             updateProduct() {
                 this.axios
-                    .put(`http://localhost:8000/api/products/${this.$route.params.id}`, this.product)
+                    .put(`/api/products/${this.$route.params.id}`, this.product)
                     .then((res) => {
                         this.$router.push({ name: 'home' });
                 });

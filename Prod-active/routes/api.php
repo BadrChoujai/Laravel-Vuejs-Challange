@@ -4,13 +4,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 Use App\Models\Product;
 use App\Models\Category;
+use App\Http\Controllers\Api\ProductController;
 
 // PRODUCTS API ROUTES 
 
 Route::get('products', function() {
-    return Product::all();
+    $products =  Product::with('Category')->get();
+    return $products;
 });
  
+Route::get('products/{id}', function($products_id) {
+    $products =  Product::with('Category')->get();
+    return $products->find($products_id);
+});
+
+Route::get('proCategory/{id}', function($category_id) {
+    $product =  Product::all();
+    $category = Category::where('id', $category_id);
+    if ($category->exists()) {
+        $category = Category::where('id', $category_id)->first();
+        $product = Product::where('category_id', $category->id )->with('Category')->get();
+        return $product;
+    }else
+        return 405;
+});
+
 Route::get('products/{id}', function($products_id) {
     return Product::find($products_id);
 });
@@ -33,6 +51,7 @@ Route::delete('products/{id}', function($products_id) {
 });
 
 // CATEGORY API ROUTES
+
 
 Route::get('categories', function () {
     // If the Content-Type and Accept headers are set to 'application/json',
