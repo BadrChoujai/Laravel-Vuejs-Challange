@@ -5,13 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $Categorys = Category::all();
-        return response()->json($Category);
+        // $categories = Category::withCount(['Products' => function($query){
+        //         $query->scopeWithFilters();
+        //     }])
+        //     ->get();
+        $Categories = Category::all();
+        return CategoryResource::collection($categories);
     }
 
     public function create(Request $request)

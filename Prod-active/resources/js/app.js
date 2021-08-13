@@ -16,6 +16,8 @@ import { routes } from './routes';
 import VueSimpleAlert from "vue-simple-alert";
 
 Vue.use(VueSimpleAlert);
+var _ = require('lodash');
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

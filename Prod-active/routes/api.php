@@ -4,13 +4,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 Use App\Models\Product;
 use App\Models\Category;
+use App\Http\Controllers\Api\ProductController;
 
 // PRODUCTS API ROUTES 
 
 Route::get('products', function() {
-    return Product::all();
+
+    $products =  Product::with('Category')->get();
+    // $products = Product::where('category_id', $category->name)->get();
+    return $products;
 });
  
+Route::get('products/{id}', function($products_id) {
+    return Product::find($products_id);
+});
+
+Route::get('proCategory/{id}', function($category_id) {
+    $products = Product::all();
+    $category = Category::where('id', $category_id);
+    if ($category->exists()) {
+        $category = Category::where('id', $category_id)->first();
+        $products = Product::where('category_id', $category->id )->get();
+        return $products;
+    }else
+        return 200;
+});
+
 Route::get('products/{id}', function($products_id) {
     return Product::find($products_id);
 });

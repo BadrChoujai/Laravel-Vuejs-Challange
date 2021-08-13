@@ -23,6 +23,14 @@ class Product extends Model
 
     public function Category()
     {
-        return $this->belongesTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
+
+    // public function scopeWithFilters($query)
+    // {   
+    //     $request = new Request(); 
+    //     return $query->when(count($request->input('categories', [])) , function ($query){
+    //         $query->whereIn('category_id', $request->input('category'));    
+    //     });
+    // }
 }
