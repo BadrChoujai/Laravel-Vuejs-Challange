@@ -1,5 +1,5 @@
 <template>
-    <div class="container"> 
+    <div id="navi" class="container"> 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
             <router-link class="navbar-brand" to="/">PRODUCT-IVE</router-link>
             <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
@@ -53,5 +53,12 @@
 }
 .navbar-collapse{
     flex-grow: 0;
+}
+.bg-dark{
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.568);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.568);
+    box-sizing: border-box;
 }
 </style>

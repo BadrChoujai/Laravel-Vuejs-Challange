@@ -3,7 +3,13 @@
         <h3 class="text-center" id="centery">Create Product</h3>
         <div class="row" id="centery">
             <div class="col-md-6">
-                <form @submit.prevent="addProduct()" method="POST" enctype="multipart/form-data" action="/api/products">
+                <form @submit.prevent="addProduct(),checkForm()" method="POST" enctype="multipart/form-data" action="/api/products">
+                      <p v-if="errors.length">
+                            <b>Please correct the following error(s):</b>
+                            <ul>
+                            <li v-for="(error, i) in errors" v-bind:key="i">{{ error }}</li>
+                            </ul>
+                        </p>
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" v-model="product.name">
@@ -39,6 +45,7 @@ export default {
         
         data() {
             return {
+                errors:[],
                 product: {},
                 image:null,
                 category: [],
@@ -48,6 +55,29 @@ export default {
             this.loadCategories();
         },
         methods: {
+            checkForm: function (e) {
+            if (this.product.name && this.product.description && this.product.price && this.product.category_id) {
+                return true;
+            }
+
+            this.errors = [];
+
+            if (!this.product.name) {
+                this.errors.push('Name required.');
+            }
+            if (!this.product.description) {
+                this.errors.push('Description required.');
+            }
+            if (!this.product.price) {
+                this.errors.push('Price required.');
+            }else if(this.product.price != Number && this.product.price < 0){
+                this.errors.push('Please Enter a valide price.');
+            }
+            if (!this.product.category_id) {
+                this.errors.push('Category required.');
+            }
+            e.preventDefault();
+            },
             loadCategories(){
                 this.axios
                 .get('/api/categories/')

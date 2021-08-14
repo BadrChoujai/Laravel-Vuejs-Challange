@@ -1,6 +1,7 @@
 <template>
     <div id="products">
-    <div class="col-lg-9">
+            <div>
+               
                 <div class="col-lg-3 mb-4" id="filter">
                     <h1 class="mt-4">Filters</h1>
                     <h3 class="mt-2">Categories</h3>
@@ -13,8 +14,11 @@
                     <button class="btn btn-outline-info" id="filters" @click="loadFilteredProducts(selected.categories)">Filter by Category</button>
                     <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset Category filter</button>
                 </div>
-                <div v-show="isLoading" class="wrapper">
+                <!-- <div v-show="isLoading" class="wrapper">
                     <div class="card-loader card-loader--tabs"></div>
+                </div> -->
+                 <div v-show="noBro" class="ts-messagebox-box">
+                        {{message}}
                 </div>
                 <div class="row mt-4">
                         <div  class="col-lg-4 col-md-6 mb-4"  v-for="(product) in products" :key="product.product_id">
@@ -54,6 +58,8 @@ export default ({
             selected: {
                 categories: [],
             },
+            message:'',
+            noBro:false,
         }
     },
 
@@ -86,33 +92,37 @@ export default ({
                     });
             },
             loadFilteredProducts:function (cat_ids) {
+                this.isLoading = true;
                   this.axios.get(`/api/proCategory/${cat_ids}`, {
                     })
                     .then((response) => {
+                        this.pro = [];
                         if (response.data || this.selected.length != 0 ) {
                             for (let i=0; i<response.data.length; i++ )
                             {
-                                    this.pro[i] = response.data[i];
-                                    if(this.pro[i].category_id != this.selected.categories[i])
-                                        this.pro.splice(i,1);
+                                this.pro[i] = response.data[i];
                             }
+                            this.isLoading = false;
                             this.products = this.pro;
                         }
-                        else
-                            alert('You need to check a category!!');               
+                        if(this.products.length == 0)
+                            this.noBro = true;
+                            this.message = 'No Products Available';               
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
             loadProducts: function () {
-                    // this.isLoading = true;
                     this.axios.get('/api/products')
                     .then((response) => {
                         this.products = response.data;
                         if(this.products.length != 0){
                             this.isLoading = false;
                         }
+                        if(this.products.length == 0)
+                            this.noBro = true;
+                            this.message = 'No Products Available';
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -134,13 +144,27 @@ export default ({
 })
 </script>
 <style lang="scss">
+    .ts-messagebox-box {
+        border-top: 3px solid;
+        border-radius:4px;
+        width: 410px;
+        margin-left: 200px;
+        text-align:center;
+        -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.25);
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-shadow: 0 0 8px rgba(0,0,0,0.25);
+        box-sizing: border-box;
+        padding: 30px;
+        margin-top:50px;	
+    }
     #edit{
         margin-right: 10px;
     }
     #filter{
         margin-top: -30px;
         float: right;
-        margin-right: -160px;
+        margin-right: -60px;
     }
     #card {
     box-shadow: 0px 0px 0px grey;
