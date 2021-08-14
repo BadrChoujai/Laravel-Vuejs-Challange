@@ -1,14 +1,14 @@
 <template>
     <div>
-        <h3 class="text-center">Edit category</h3>
-        <div class="row">
+        <h3 class="text-center">Edit Category</h3>
+        <div class="editCat">
             <div class="col-md-6">
                 <form @submit.prevent="updateCategory">
                     <div class="form-group">
                         <label>Category Name</label>
                         <input type="text" class="form-control" v-model="category.name">
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-outline-primary">Update</button>
                 </form>
             </div>
         </div>
@@ -44,3 +44,12 @@
         }
     }
 </script>
+<style scoped>
+.text-center{
+    margin-top: 15px;
+}
+.editCat{
+    margin-top: 15px;
+    margin-left: 30%;
+}
+</style>

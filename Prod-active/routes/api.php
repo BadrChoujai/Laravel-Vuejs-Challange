@@ -12,11 +12,12 @@ Route::get('products', function() {
     $products =  Product::with('Category')->get();
     return $products;
 });
- 
+
 Route::get('products/{id}', function($products_id) {
     $products =  Product::with('Category')->get();
     return $products->find($products_id);
 });
+
 
 Route::get('proCategory/{id}', function($category_id) {
     $product =  Product::all();

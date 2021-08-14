@@ -11,7 +11,7 @@
                         </label>
                     </div>
                     <button class="btn btn-outline-info" id="filters" @click="loadFilteredProducts(selected.categories)">Filter by Category</button>
-                    <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset Filter</button>
+                    <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset Category filter</button>
                 </div>
                 <div v-show="isLoading" class="wrapper">
                     <div class="card-loader card-loader--tabs"></div>
@@ -48,19 +48,12 @@ export default ({
             categories: [],
             products: [],
             pro:[],
-            oldPro:[],
-            cat:[],
-            proL:0,
-            catL:0,
             isLoading:false,
             showFiltered:false,
             showNotFFiltered:true,
             selected: {
                 categories: [],
             },
-            minPrice:0,
-            maxPrice:0
-            
         }
     },
 
@@ -104,7 +97,6 @@ export default ({
                                         this.pro.splice(i,1);
                             }
                             this.products = this.pro;
-                            this.proL = this.pro.length;
                         }
                         else
                             alert('You need to check a category!!');               
