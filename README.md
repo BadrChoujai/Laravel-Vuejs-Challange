@@ -21,3 +21,7 @@ A single page web application made with Laravel and Vuejs to manage and view pro
 
 > Note:
 > App still in Progress and getting updates.
+
+
+## Licence
+**This Web app is Free to use anywhere by anyone**
