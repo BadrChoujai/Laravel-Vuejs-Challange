@@ -46,9 +46,9 @@
         },
         created() {
             this.axios
-                .get('/api/categories/')
+                .get('/api/categories/',this.headers)
                 .then((res) => {
-                    this.category = res.data;
+                    this.category = res.data.data;
                 });    
                 
         },
@@ -64,7 +64,7 @@
                 this.axios
                     .put(`/api/products/${this.$route.params.id}`, this.product)
                     .then((res) => {
-                        this.$router.push({ name: 'home' });
+                        this.$router.push({ name: 'Products' });
                 });
             }
         }

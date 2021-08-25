@@ -1,7 +1,6 @@
 <template>
     <div id="products">
             <div>
-               
                 <div class="col-lg-3 mb-4" id="filter">
                     <h1 class="mt-4">Filters</h1>
                     <h3 class="mt-2">Categories</h3>
@@ -14,9 +13,6 @@
                     <button class="btn btn-outline-info" id="filters" @click="loadFilteredProducts(selected.categories)">Filter by Category</button>
                     <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset Category filter</button>
                 </div>
-                <!-- <div v-show="isLoading" class="wrapper">
-                    <div class="card-loader card-loader--tabs"></div>
-                </div> -->
                  <div v-show="noBro" class="ts-messagebox-box">
                         {{message}}
                 </div>
@@ -39,30 +35,33 @@
                             </div>
                         </div>
                 </div>
-                
             </div>
     </div>
 </template>
 <script>
+// import axios from 'axios'
 import _ from 'lodash';
 export default ({
-    name:'Products',
-    data: function () {
-        return {
-            categories: [],
-            products: [],
-            pro:[],
-            isLoading:false,
-            showFiltered:false,
-            showNotFFiltered:true,
-            selected: {
+        name:'Products',
+        data: function () {
+            return {
+                token:'',
                 categories: [],
-            },
-            message:'',
-            noBro:false,
-        }
-    },
-
+                products: [],
+                pro:[],
+                isLoading:false,
+                showFiltered:false,
+                showNotFFiltered:true,
+                selected: {
+                    categories: [],
+                },
+                message:'',
+                noBro:false,
+            }
+        },
+        created(){
+            $cookies.set('token', localStorage.getItem("token"), '1d');   //return this
+        },
         mounted() {
             this.loadCategories();
             this.loadProducts();
@@ -78,23 +77,23 @@ export default ({
         },
         methods: {
             reset(){
+                this.noBro = false;
                 return this.selected.categories = [];
             },
             loadCategories: function () {
                 this.axios.get('/api/categories', {
-                        params: _.omit(this.selected.categories, 'categories')
-                    })
-                    .then((response) => {
-                        this.categories = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    params: _.omit(this.selected.categories, 'categories')
+                })
+                .then((response) => {
+                    this.categories = response.data.data;
+                })
+                .catch(function (error) {   
+                    console.log(error);
+                });
             },
             loadFilteredProducts:function (cat_ids) {
                 this.isLoading = true;
-                  this.axios.get(`/api/proCategory/${cat_ids}`, {
-                    })
+                  this.axios.get(`/api/proCategory/${cat_ids}`)
                     .then((response) => {
                         this.pro = [];
                         if (response.data || this.selected.length != 0 ) {
@@ -106,19 +105,22 @@ export default ({
                             this.products = this.pro;
                         }
                         if(this.products.length == 0)
+                        {
                             this.noBro = true;
-                            this.message = 'No Products Available';               
+                            this.message = 'No Products Available';
+                        }   
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             },
             loadProducts: function () {
+                    this.noBro = false;
                     this.axios.get('/api/products')
                     .then((response) => {
                         this.products = response.data;
                         if(this.products.length != 0){
-                            this.isLoading = false;
+                            this.noBro = false;
                         }
                         if(this.products.length == 0)
                             this.noBro = true;

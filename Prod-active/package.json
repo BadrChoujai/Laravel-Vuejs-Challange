@@ -26,10 +26,13 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@websanova/vue-auth": "^4.1.4",
         "cross-env": "^7.0.3",
         "moment": "^2.29.1",
+        "qs": "^6.10.1",
         "vue": "^2.6.14",
         "vue-axios": "^3.2.5",
+        "vue-cookies": "^1.7.4",
         "vue-router": "^3.5.2",
         "vue-simple-alert": "^1.1.1",
         "vue-upload-component": "^2.8.22"

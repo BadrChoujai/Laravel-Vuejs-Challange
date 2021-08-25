@@ -25,6 +25,9 @@ export default {
                 },
             }
         },
+        created(){
+            localStorage.getItem("token");
+        },
         methods: {
             addCategory() {
                 this.axios

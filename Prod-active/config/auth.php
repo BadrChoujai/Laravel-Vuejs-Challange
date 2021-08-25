@@ -34,7 +34,10 @@ return [
     | Supported: "session", "token"
     |
     */
-
+    'defaults' => [
+        'guard' => 'api', // updated
+        'passwords' => 'users',
+    ],
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -42,12 +45,13 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'users',
             'hash' => false,
         ],
     ],
 
+    
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -70,11 +74,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -111,7 +110,5 @@ return [
     | confirmation screen. By default, the timeout lasts for three hours.
     |
     */
-
     'password_timeout' => 10800,
-
 ];

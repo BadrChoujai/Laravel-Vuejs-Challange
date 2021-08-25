@@ -4,30 +4,31 @@
         <div class="row" id="centery">
             <div class="col-md-6">
                 <form @submit.prevent="addProduct(),checkForm()" method="POST" enctype="multipart/form-data" action="/api/products">
-                      <p v-if="errors.length">
-                            <b>Please correct the following error(s):</b>
-                            <ul>
-                            <li v-for="(error, i) in errors" v-bind:key="i">{{ error }}</li>
-                            </ul>
-                        </p>
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" class="form-control" v-model="product.name">
+                        <input @change="checkForm()" type="text" class="form-control" v-model="product.name">
+                        <label for="Name" class="red" v-text="errors.Name"></label>
                     </div>
+
                     <div class="form-floating">
                         <label for="floatingTextarea2">Description</label>
-                        <textarea class="form-control" v-model="product.description" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <textarea @change="checkForm()" class="form-control" v-model="product.description" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                        <label for="Name" class="red" v-text="errors.description"></label>
                     </div>
                     <div class="form-group">
                         <label>Price</label>
-                        <input type="text" class="form-control" v-model="product.price">
+                        <input @change="checkForm()" type="text" class="form-control" v-model="product.price">
+                        <label for="Name" class="red" v-text="errors.price"></label>
                     </div>
                     <label>Category</label>
-                    <select  v-model="product.category_id" name="category" class="custom-select" id="inputGroupSelect01">
-                        <option v-for="catego in category" v-bind:key="catego.id" :value="catego.id">
-                            {{catego.name}}
-                        </option>
-                    </select><br><br>
+                    <div class="form-floating">
+                        <select @change="checkForm()" v-model="product.category_id" name="category" class="custom-select" id="inputGroupSelect01">
+                            <option  v-for="catego in category" v-bind:key="catego.id" :value="catego.id">
+                                {{catego.name}}
+                            </option>
+                        </select>
+                        <label for="Name" class="red" v-text="errors.category"></label>
+                    </div>
                     <label>Product Image</label>
                     <div class="custom-file">
                         <input name="image" type="file" ref="file" @change="uploadImage" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03">
@@ -41,11 +42,15 @@
 </template>
 
 <script>
-export default {
-        
+export default { 
         data() {
             return {
-                errors:[],
+                errors:{
+                    Name:'' ,
+                    description:'' ,
+                    price:'',
+                    category:'',
+                },
                 product: {},
                 image:null,
                 category: [],
@@ -54,48 +59,54 @@ export default {
         mounted(){
             this.loadCategories();
         },
+        created(){
+            localStorage.getItem("token");
+        },
         methods: {
-            checkForm: function (e) {
-            if (this.product.name && this.product.description && this.product.price && this.product.category_id) {
-                return true;
-            }
+            checkForm: function () {
+                if (this.product.name && this.product.description && this.product.price && this.product.category_id) {
+                    return true;
+                }
 
-            this.errors = [];
+                this.errors = {
+                    Name:'' ,
+                    description:'' ,
+                    price:'',
+                    category:'',
+                };
 
-            if (!this.product.name) {
-                this.errors.push('Name required.');
-            }
-            if (!this.product.description) {
-                this.errors.push('Description required.');
-            }
-            if (!this.product.price) {
-                this.errors.push('Price required.');
-            }else if(this.product.price != Number && this.product.price < 0){
-                this.errors.push('Please Enter a valide price.');
-            }
-            if (!this.product.category_id) {
-                this.errors.push('Category required.');
-            }
-            e.preventDefault();
+                if (!this.product.name) {
+                    this.errors.Name = 'Name required.';
+                }
+                if (!this.product.description) {
+                    this.errors.description = 'Description required.';
+                }
+                if (!this.product.price) {
+                    this.errors.price = 'Price required.';
+                }else if(this.product.price != Number && this.product.price < 0){
+                    this.errors.price = 'Please Enter a valide price.';
+                }
+                if (!this.product.category_id) {
+                    this.errors.category = 'Category required.';
+                }
             },
             loadCategories(){
                 this.axios
-                .get('/api/categories/')
+                .get('/api/categories')
                 .then((res) => {
-                    this.category = res.data;
+                    this.category = res.data.data;
                 });
             },
             uploadImage(e){
                 this.image = this.$refs.file.files[0];
                 console.log(this.image);
-
             },
             addProduct() {
                 this.product.image = this.image;
                 this.axios
-                    .post('/api/products', this.product)
+                    .post('/api/products',this.product)
                     .then((response) => (
-                        this.$router.push('/')
+                        this.$router.push('/products')
                     ))
                     .catch(err => console.log(err))
             },
@@ -109,4 +120,8 @@ export default {
     justify-content: center;
     margin-bottom:40px;
 }
+.red{
+    color: rgb(248, 66, 81);;
+}
+
 </style>
