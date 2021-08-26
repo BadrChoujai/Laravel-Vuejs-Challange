@@ -13,9 +13,9 @@ A single page web application made with Laravel and Vuejs to manage and view pro
 	
 	4. php artisan serve
 
-## To migrate Tables into database
-	modify your .env credencials 
-    	php artisan migrate
+# To migrate Tables into database
+## Modify your .env file credencials and enter the command below:
+	php artisan migrate
 
 ## Update
 
