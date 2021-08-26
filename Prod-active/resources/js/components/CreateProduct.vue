@@ -99,7 +99,6 @@ export default {
             },
             uploadImage(e){
                 this.image = this.$refs.file.files[0];
-                console.log(this.image);
             },
             addProduct() {
                 this.product.image = this.image;

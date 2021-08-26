@@ -20,9 +20,6 @@ export default {
         data() {
             return {
                 category: {},
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('#token').getAttribute('value')
-                },
             }
         },
         created(){
@@ -35,7 +32,7 @@ export default {
                     .then((response) => (
                         this.$router.push('Categories')
                     ))
-                    .catch(err => console.log(err))
+                    .catch(err =>  console.log(err))
             }
         }
     }

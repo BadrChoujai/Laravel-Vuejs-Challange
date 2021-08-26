@@ -1,9 +1,9 @@
 <template>
-    <div id="login" class="container">
+    <div id="login" class="container top">
         <div class="row">
             <div class="col-md-6 mt-5 mx-auto">
                 <form v-on:submit.prevent="login">
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <h1 class="h3 mb-3 font-weight-normal" style="text-align:center;">Sign in</h1>
                 <div class="form-group">
                     <label for="email"> Email Address</label>
                     <input type="email" v-model="email" class="form-control" name="email" placeholder="Email Address">
@@ -32,14 +32,13 @@ export default ({
         }
     },
     methods:{
-      login() {  
+      login() {
         this.axios.post('/api/login',
             {
               email:this.email,
               password:this.password,
             })
             .then((res) => {
-                console.log(res.data.token);
                 if (res.data.token) {
                     // Saving Token
                     localStorage.setItem('token', res.data.token)
@@ -51,9 +50,7 @@ export default ({
             .catch((err) => {
                 console.log(err)
             })
-            console.log(this.auth);
-          this.emitMethod()
-
+            this.emitMethod()
       },
       emitMethod() {
           EventBus.$emit('logged-in','loggedin')
@@ -62,5 +59,7 @@ export default ({
 })
 </script>
 <style scoped>
-
+.top{
+    margin-top: 10%;
+}
 </style>

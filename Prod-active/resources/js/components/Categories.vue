@@ -59,10 +59,10 @@ export default ({
                     this.axios.get('/api/categories')
                     .then((response) => {
                         this.categories = response.data.data;
-                        console.log(response.data.data);
+                         (response.data.data);
                     })
                     .catch(function (error) {
-                        console.log(error);
+                         (error);
                     })
             },
             deleteCategory(id){

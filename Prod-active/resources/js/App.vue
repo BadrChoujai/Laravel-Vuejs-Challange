@@ -1,6 +1,6 @@
 <template>
-    <div id="navi" class="container"> 
-        <nav class="navbar navbar-expand-md">
+    <div class="container"> 
+        <nav class="navbar navbar-expand-md" v-if="auth.user.authenticated">
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav left">
                     <a class="nav-item nav-link active">
