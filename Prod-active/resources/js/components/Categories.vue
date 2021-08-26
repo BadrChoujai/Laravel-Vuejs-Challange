@@ -41,11 +41,12 @@ export default ({
                 date:new Date(),
             }
         },
-
         mounted() {
             this.loadCategories();
         },
-
+        created(){
+            $cookies.set('token', localStorage.getItem("token"), '1d');   //return this
+        },
         methods: {
             truncate_string(date) {
                 if(date){
@@ -57,10 +58,11 @@ export default ({
             loadCategories: function () {
                     this.axios.get('/api/categories')
                     .then((response) => {
-                        this.categories = response.data;
+                        this.categories = response.data.data;
+                         (response.data.data);
                     })
                     .catch(function (error) {
-                        console.log(error);
+                         (error);
                     })
             },
             deleteCategory(id){

@@ -11,17 +11,13 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        // $categories = Category::withCount(['Products' => function($query){
-        //         $query->scopeWithFilters();
-        //     }])
-        //     ->get();
-        $Categories = Category::all();
+        $categories = Category::all();
         return CategoryResource::collection($categories);
     }
 
     public function create(Request $request)
     {
-        // 
+        return Category::create($request->all());
     }
 
     public function store(Request $request)
@@ -40,13 +36,14 @@ class CategoryController extends Controller
 
     public function update($id, Request $request)
     {
-        $Category = Category::find($id);
+        $Category = Category::findOrFail($id);
         $Category->update($request->all());
+        return $Category;
     }
 
     public function destroy($id)
     {
-        $Category = Category::find($id);
-        $Category->delete();
+        Category::find($id)->delete();
+        return 204;
     }
 }

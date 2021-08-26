@@ -28,10 +28,11 @@
         },
         created() {
             this.axios
-                .get(`http://localhost:8000/api/categories/${this.$route.params.id}`)
+                .get(`http://localhost:8000/api/categories/${this.$route.params.id}` , this.headers)
                 .then((res) => {
                     this.category = res.data;
                 });
+            localStorage.getItem("token");
         },
         methods: {
             updateCategory() {

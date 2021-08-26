@@ -20,10 +20,10 @@ export default {
         data() {
             return {
                 category: {},
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('#token').getAttribute('value')
-                },
             }
+        },
+        created(){
+            localStorage.getItem("token");
         },
         methods: {
             addCategory() {
@@ -32,7 +32,7 @@ export default {
                     .then((response) => (
                         this.$router.push('Categories')
                     ))
-                    .catch(err => console.log(err))
+                    .catch(err =>  console.log(err))
             }
         }
     }
