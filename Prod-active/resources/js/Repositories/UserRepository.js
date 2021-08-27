@@ -1,22 +1,22 @@
 
-import Repo from '../Services/Repository.js';
-const resource = '/products';
+import instance from '../Services/Repository.js';
+const resource = '/api/login';
 
 export default {
     get() {
-        return Repo.get(`${resource}`);
+        return instance.get(`${resource}`);
     },
     getProduct(id) {
-        return Repo.get(`${resource}/${id}`);
+        return instance.get(`${resource}/${id}`);
     },
-    create(payload) {
-        return Repo.post(`${resource}`, payload);
+    Post(payload) {
+        return instance.post(`${resource}`, payload);
     },
     update(payload, id) {
-        return Repo.put(`${resource}/${id}`, payload);
+        return instance.put(`${resource}/${id}`, payload);
     },
     delete(id) {
-        return Repo.delete(`${resource}/${id}`)
+        return instance.delete(`${resource}/${id}`)
     },
 
     // MANY OTHER ENDPOINT RELATED STUFFS

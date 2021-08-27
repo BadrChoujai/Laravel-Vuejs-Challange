@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card">
         <h3 class="text-center" id="centery">Create Product</h3>
         <div class="row" id="centery">
             <div class="col-md-6">
@@ -114,13 +114,17 @@ export default {
 </script>
 <style scoped>
 #centery{
-    margin-top:40px;
+    margin-top:10px;
     display:flex;
     justify-content: center;
     margin-bottom:40px;
 }
 .red{
     color: rgb(248, 66, 81);;
+}
+.card{
+    margin-top: 20px;
+    padding:20px;
 }
 
 </style>

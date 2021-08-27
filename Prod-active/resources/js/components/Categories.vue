@@ -1,7 +1,7 @@
 <template>
     <div id="categories">
-        <div class="col-lg-9">
-            <div class="row mt-4">
+        <div class="container">
+            <div class="row mt-5 table">
                     <table class="rwd-table">
                         <tbody>
                         <tr>
@@ -27,16 +27,22 @@
                         </tr>
                         </tbody>
                     </table>
+                    <!-- <Loading v-show="loading"></Loading> -->
             </div>
         </div>
     </div>
 </template>
 <script>
 import moment from 'moment'
+import Loading from "./Loading.vue";
 export default ({
     name:'Categories',
+    components:{
+      Loading,
+    },
     data: function () {
             return {
+                loading:false,
                 categories: [],
                 date:new Date(),
             }
@@ -56,13 +62,14 @@ export default ({
                     return dt = ' - NONE - ';
             },
             loadCategories: function () {
+                    this.loading = true;
                     this.axios.get('/api/categories')
                     .then((response) => {
+                        this.loading = false;
                         this.categories = response.data.data;
-                         (response.data.data);
                     })
                     .catch(function (error) {
-                         (error);
+                        console.log(error);
                     })
             },
             deleteCategory(id){
@@ -192,6 +199,11 @@ export default ({
 /* THE END OF THE IMPORTANT STUFF */
 
 /* Basic Styling */
+
+.table{
+  margin-left: 140px;
+}
+
 body {
 background: #4B79A1;
 background: -webkit-linear-gradient(to left, #4B79A1 , #283E51);

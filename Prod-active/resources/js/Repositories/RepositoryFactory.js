@@ -1,8 +1,10 @@
 import UserRepository from './UserRepository';
 
 const repositories = {
-    'users': UserRepository
+    'user': UserRepository
 }
+
 export default {
-    get: name => repositories[name]
+    get: name => repositories[name],
+    post: name => repositories[name]
 };

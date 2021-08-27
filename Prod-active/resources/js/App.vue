@@ -4,33 +4,31 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav left">
                     <a class="nav-item nav-link active">
-                          <li v-if="auth.user.authenticated">
+                        <li>
                             <router-link to="/products">Products</router-link>
-                        </li>         
+                        </li>
                     </a>
                     <a class="nav-item nav-link active">
-                        <li v-if="auth.user.authenticated">
+                        <li>
                             <router-link to="/Categories">Categories</router-link>
                         </li>
                     </a>
                     <a class="nav-item nav-link active">
-                        <li v-if="auth.user.authenticated">
+                        <li>
                             <router-link to="/CreateCategory">Create Category</router-link>
                         </li>
                     </a>
                     <a class="nav-item nav-link active">
-                        <li v-if="auth.user.authenticated">
+                        <li>
                             <router-link to="/Create">Create Product</router-link>
                         </li>
                     </a>
                 </div>
                 <div class="navbar-nav right">
-                    <a href="#" class="nav-item1 nav-link active">
-                        <li class="pull-right" v-if="auth.user.authenticated">
-                        <a href="javascript:void(0)" v-on:click="signout">Sign out</a>
-                    </li>
-                    </a>
-                    <li class="pull-right" v-if="auth.user.authenticated">
+                        <li class="nav-item1 nav-link active pull-right" style="margin-top:11px;">
+                            <a href="javascript:void(0)" v-on:click="signout">Sign out</a>
+                        </li>
+                    <li class="pull-right" >
                         <p v-if="auth.user.profile != null">Hi, {{toUpper(auth.user.profile.user.name)}}</p>
                         <p v-else>Welcome Back,</p>
                     </li>
@@ -85,6 +83,8 @@ p{
     color: whitesmoke;
 }
 nav{
+    border-bottom-right-radius: 0.75rem;
+    border-bottom-left-radius: 0.75rem;
     padding: 10px;
     background-color: #343a40;
     -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.568);
@@ -93,10 +93,13 @@ nav{
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.568);
     box-sizing: border-box;
 }
-a{
+li,a{
+    padding: 10px;
     color: rgb(153, 153, 153);
 }
 a:hover {
+    border-radius: 0.40rem;
+    background-color: #4a5057;
     color: #f3f3f3;
     text-decoration:none;
 }
