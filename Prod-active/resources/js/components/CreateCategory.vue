@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <h3 class="text-center" id="centery">Create Category</h3>
+    <div class="card">
+        <h3 class="text-center" style="text-align:center; margin-top: 10px;">Create Category</h3>
+            <hr>
         <div class="row" id="centery">
             <div class="col-md-6">
                 <form @submit.prevent="addCategory()">
@@ -38,8 +39,19 @@ export default {
     }
 </script>
 <style scoped>
+.card{
+    margin-top: 20px;
+    padding:20px;
+}
 #centery{
-    margin-top:40px;
+    margin-top:30px;
+    margin-left:10%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+.form-control{
+    width:80%;
     display:flex;
     justify-content: center;
 }

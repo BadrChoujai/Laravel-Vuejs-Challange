@@ -1,8 +1,8 @@
 <template>
     <div id="products">
             <div>
-                <div class="col-lg-3 mb-4" id="filter">
-                    <h1 class="mt-4">Filters</h1>
+                <div class="card col-lg-3 mb-4" id="filter">
+                    <h1>Filters</h1>
                     <h3 class="mt-2">Categories</h3>
                     <div class="form-check" v-for="(category, index) in categories" v-bind:key="index">
                         <input class="form-check-input" name="category" type="checkbox" :value="category.id" :id="'category'+index" v-model="selected.categories" :disabled="selected.categories.length >= 1">
@@ -10,25 +10,30 @@
                             {{ category.name }}
                         </label>
                     </div>
-                    <button class="btn btn-outline-info" id="filters" @click="loadFilteredProducts(selected.categories)">Filter by Category</button>
-                    <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset Category filter</button>
+                    <button class="btn btn-outline-info" id="filters" @click="loadFilteredProducts(selected.categories)">Filter</button>
+                    <button class="btn btn-outline-dark" id="filters" @click="reset()">Reset filter</button>
                 </div>
-                 <div v-show="noBro" class="ts-messagebox-box">
+                <Loading v-show="loading"></Loading>
+                <div v-show="noBro" class="ts-messagebox-box">
                         {{message}}
                 </div>
                 <div class="row mt-4">
                         <div  class="col-lg-4 col-md-6 mb-4"  v-for="(product) in products" :key="product.product_id">
-                            <div class="card h-100" id="div-rm" v-if="showNotFFiltered">
+                            <div class="card h-100" id="div-rm" v-if="showNotFiltered">
                             <!-- <img class="card-img-top" id="card" :src="'/public/img/' + product.image"  :alt="product.image"> -->
                             <div class="card-body">
-                                <h4 class="card-title">
+                                <h3 class="card-title">
                                     {{ product.name }}
-                                </h4>
-                                <h6>Price : $ {{ product.price }}</h6>
-                                <h6>Category : {{ product.category.name }}</h6>
-                                <p class="card-text" style="font-size:1.1vw;">Description : {{ product.description }}</p>
-                                    <div class="btn-group" role="group">
-                                        <router-link :to="{name: 'edit', params: { id: product.product_id }}" id="edit" class="btn btn-outline-success">Edit</router-link>
+                                </h3>
+                                <hr>
+                                <h6 class="mt-3">Description : </h6>
+                                <div class="scroll-box">
+                                    <p class="Card-description mt-3">{{ product.description }}</p>
+                                </div>
+                                <h6 class="mt-3">Category : {{ product.category.name }}</h6>
+                                <h6 class="mt-3">Price : <strong>$ {{ product.price }}</strong></h6>
+                                    <div class="btn-group mt-3" role="group">
+                                        <router-link :to="{name: 'edit', params: { id: product.product_id }}" id="edit" class="btn btn-outline-secondary">Edit</router-link>
                                         <button class="btn btn-outline-danger" @click="deleteProduct(product.product_id)">Delete</button>
                                     </div>
                                 </div>
@@ -39,19 +44,23 @@
     </div>
 </template>
 <script>
-// import axios from 'axios'
+import Loading from './Loading.vue'
 import _ from 'lodash';
 export default ({
         name:'Products',
+        components:{
+            Loading,
+        },
         data: function () {
             return {
                 token:'',
                 categories: [],
                 products: [],
                 pro:[],
+                loading:false,
                 isLoading:false,
                 showFiltered:false,
-                showNotFFiltered:true,
+                showNotFiltered:true,
                 selected: {
                     categories: [],
                 },
@@ -92,7 +101,6 @@ export default ({
                 });
             },
             loadFilteredProducts:function (cat_ids) {
-                this.isLoading = true;
                   this.axios.get(`/api/proCategory/${cat_ids}`)
                     .then((response) => {
                         this.pro = [];
@@ -101,7 +109,6 @@ export default ({
                             {
                                 this.pro[i] = response.data[i];
                             }
-                            this.isLoading = false;
                             this.products = this.pro;
                         }
                         if(this.products.length == 0)
@@ -115,11 +122,13 @@ export default ({
                     });
             },
             loadProducts: function () {
+                    this.loading = true;
                     this.noBro = false;
                     this.axios.get('/api/products')
                     .then((response) => {
                         this.products = response.data;
                         if(this.products.length != 0){
+                            this.loading = false;
                             this.noBro = false;
                         }
                         if(this.products.length == 0)
@@ -130,7 +139,6 @@ export default ({
                         console.log(error);
                     })
             },
-
             deleteProduct(id){
                 this.$confirm(`Are you sure?`, 'Delete', 'error').then(() => {
                     this.axios
@@ -146,6 +154,14 @@ export default ({
 })
 </script>
 <style lang="scss">
+    .scroll-box {
+        overflow-y: scroll;
+        height: 80px;
+        padding: 0rem;
+    }
+    .card{
+        border-radius: 0.75rem;
+    }
     .ts-messagebox-box {
         border-top: 3px solid;
         border-radius:4px;
@@ -164,9 +180,8 @@ export default ({
         margin-right: 10px;
     }
     #filter{
-        margin-top: -30px;
+        padding: 20px;
         float: right;
-        margin-right: -60px;
     }
     #card {
     box-shadow: 0px 0px 0px grey;
@@ -238,6 +253,7 @@ export default ({
     
 }
 #filters{
+    width:80%;
     margin-top:15px;
 }
 </style>

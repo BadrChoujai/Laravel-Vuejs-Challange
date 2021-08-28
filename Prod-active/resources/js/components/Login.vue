@@ -21,7 +21,9 @@
 </template>
 <script>
 import auth from '../auth.js'
-import EventBus from './EventBus.vue'
+import Repository from "../repositories/RepositoryFactory";
+const UserRepository = Repository.get("user");
+// import EventBus from './EventBus.vue'
 export default ({
     name:'Login',
     data(){
@@ -32,29 +34,38 @@ export default ({
         }
     },
     methods:{
-      login() {
-        this.axios.post('/api/login',
-            {
-              email:this.email,
-              password:this.password,
-            })
-            .then((res) => {
-                if (res.data.token) {
-                    // Saving Token
-                    localStorage.setItem('token', res.data.token)
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-                    this.auth.user.authenticated = true;
-                    this.$router.push('/products')
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            this.emitMethod()
-      },
-      emitMethod() {
-          EventBus.$emit('logged-in','loggedin')
-      }
+        // login: function() {
+        //     const { data } = UserRepository.Post(this.email, this.password);
+        //     console.log(data);
+        //     // this.auth.user.authenticated = true;
+        //     // this.$router.push('/products');
+        //     // this.emitMethod();
+        // },
+        login() {
+            this.axios.post('/api/login',
+                {
+                    email:this.email,
+                    password:this.password,
+                })
+                .then((res) => {    
+                    if (res.data.token) {
+                        // Saving Token
+                        localStorage.setItem('token', res.data.token)
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+                        this.auth.user.authenticated = true;
+                        this.$router.push('/products')
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+                // this.emitMethod()
+        },
+        //   this function was used to set the status of the user as logged in
+
+        //   emitMethod() {
+        //         EventBus.$emit('logged-in','loggedin')
+        //   }
     }
 })
 </script>
